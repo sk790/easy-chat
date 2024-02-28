@@ -1,13 +1,23 @@
 import React, { useContext } from "react";
 import useConversation from "../../zustand/useConversation";
 import { SocketContext } from "../../context/SocketContext";
+import { IoMdPersonAdd } from "react-icons/io";
+import useSendRequest from "../../hooks/useSendRequest";
 
 const Conversation = ({ conversation, lastIndex }) => {
   const { setSelectedConversation, selectedConversation } = useConversation();
   const isSelected = selectedConversation?._id === conversation._id;
 
+  const { sendFriendRequest, loading } = useSendRequest();
+
   const { onlineUsers } = useContext(SocketContext);
   const isOnline = onlineUsers.includes(conversation?._id);
+
+  const sendRequest = async (e) => {
+    e.preventDefault();
+    // console.log(conversation._id);
+    await sendFriendRequest(conversation._id);
+  };
   return (
     <>
       <div
@@ -16,7 +26,7 @@ const Conversation = ({ conversation, lastIndex }) => {
         }`}
         onClick={() => setSelectedConversation(conversation)}
       >
-        <div className={`avatar ${isOnline ? "online" :"" }`}>
+        <div className={`avatar ${isOnline ? "online" : ""}`}>
           <div className="w-12 rounded-full">
             <img
               src={conversation && conversation.profilePic}
@@ -29,7 +39,18 @@ const Conversation = ({ conversation, lastIndex }) => {
             <p className="font-bold text-gray-200">
               {conversation && conversation.username}
             </p>
-            <span className="text-sm">12:30</span>
+            <span className="text-sm">
+              <button
+                onClick={sendRequest}
+                className="text-2xl hover:text-white transition-all "
+              >
+                {!loading ? (
+                  <IoMdPersonAdd />
+                ) : (
+                  <span className="loading loading-spinner"></span>
+                )}
+              </button>
+            </span>
           </div>
         </div>
       </div>

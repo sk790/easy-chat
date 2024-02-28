@@ -15,6 +15,8 @@ const conversationSchema = new mongoose.Schema(
         default: [],
       },
     ],
+    isFriend: { type: Boolean, default: false },
+    requestMsg: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

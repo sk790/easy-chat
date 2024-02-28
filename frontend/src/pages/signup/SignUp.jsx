@@ -3,6 +3,7 @@ import Gender from "./Gender";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import useSignUp from "../../hooks/useSignup";
+import { FaUser } from "react-icons/fa";
 
 const SignUp = () => {
   const [inputs, setinputs] = useState({
@@ -49,6 +50,7 @@ const SignUp = () => {
             <label className="label p-2">
               <span className="text-base label-text">Username</span>
             </label>
+            
             <input
               type="text"
               value={inputs.username}

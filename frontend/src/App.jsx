@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthContext } from "./context/AuthContext";
 import { Navigate } from "react-router-dom";
+import Notification from "./pages/notification/Notification";
 
 function App() {
   const { authUser } = useContext(AuthContext);
@@ -27,6 +28,7 @@ function App() {
             path="/signup"
             element={authUser ? <Navigate to="/" /> : <SignUp />}
           />
+          <Route path="/notification" element={<Notification />} />
         </Routes>
       </div>
       <Toaster />

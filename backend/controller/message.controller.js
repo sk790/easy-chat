@@ -1,4 +1,5 @@
 import Conversation from "../models/convarsation.model.js";
+import FriendReq from "../models/friendReq.model.js";
 import Message from "../models/message.model.js";
 import { getReceiverSocketId, io } from "../socket/socket.js";
 
@@ -9,20 +10,37 @@ export const sendMessage = async (req, res) => {
     let { id: receiverId } = req.params;
     const senderId = req.user._id;
 
-    let conversation = await Conversation.findOne({
+    const isFriend = await FriendReq.findOne({
       $and: [
         {
-          participants: {
-            $all: [senderId, receiverId],
-          },
+          "participants.receiverId": receiverId,
         },
         {
-          isFriend: true,
+          "participants.senderId": senderId,
+        },
+        {
+          isAccepted: true,
         },
       ],
     });
 
-    if (conversation) {
+    if (!isFriend)
+      return res.status(400).json({
+        success: false,
+        error: "You are not allowed to send message to this user",
+      });
+    let conversation;
+    if (isFriend) {
+      conversation = await Conversation.findOne({
+        participants: {
+          $all: [senderId, receiverId],
+        },
+      });
+      if (!conversation) {
+        conversation = await Conversation.create({
+          participants: [senderId, receiverId],
+        });
+      }
       const newMessage = new Message({
         senderId,
         receiverId,
@@ -39,50 +57,13 @@ export const sendMessage = async (req, res) => {
       //Socket functionality here
       const receiverSocketId = getReceiverSocketId(receiverId);
       if (receiverSocketId) {
-        //io.<socketId>.emit() used to send message to specific user
         io.to(receiverSocketId).emit("newMessage", newMessage);
       }
       res.status(201).json(newMessage);
     }
-    // await Promise.all([newMessage.save()]);
-    if (!conversation) {
-      res.status(400).json({
-        success: false,
-        error: "You are not allowed to send message to this user",
-      });
-    }
   } catch (error) {
     console.log("Error in sendMessage controller: ", error.message);
     res.status(500).json({ success: false, error: error.message });
-  }
-};
-
-export const sendFriendRequest = async (req, res) => {
-  console.log("send reques working");
-  try {
-    const { id: receiverId } = req.params;
-    console.log("conversation id", receiverId);
-    const senderId = req.user._id;
-
-    let conversation = await Conversation.findOne({
-      participants: {
-        $all: [senderId, receiverId],
-      },
-    });
-    if (!conversation) {
-      conversation = await Conversation.create({
-        participants: [senderId, receiverId],
-      });
-    }else{
-      await conversation.deleteOne({participants: {$all: [senderId, receiverId]}});
-      return res.status(200).json({ conversation,message:"delete request already sent" });
-    }
-    console.log("conversation", conversation);
-
-    res.status(200).json({ conversation,message:"Friend request sent successfully" });
-  } catch (error) {
-    console.log("Error in sendFriendRequest controller: ", error.message);
-    res.status(500).json({ error: error.message });
   }
 };
 

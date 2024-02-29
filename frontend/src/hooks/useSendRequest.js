@@ -4,13 +4,13 @@ import { toast } from "react-hot-toast";
 
 const useSendRequest = () => {
   const [loading, setLoading] = useState(false);
-  const { authUser } = useContext(AuthContext);
 
   const sendFriendRequest = async (conversationId) => {
     setLoading(true);
     try {
+      console.log("fetch");
       const res = await fetch(
-        `/api/messages/sendFriendRequest/${conversationId}`,
+        `/api/sendFriendRequest/${conversationId}`,
         {
           method: "POST",
           headers: {

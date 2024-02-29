@@ -4,10 +4,6 @@ import { AuthContext } from "./AuthContext";
 
 export const SocketContext = createContext();
 
-// export const useSocketContext = ()=>{
-//   return useContext(SocketContext)
-// }
-
 export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnineUsers] = useState([]);

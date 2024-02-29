@@ -3,8 +3,10 @@ import useConversation from "../../zustand/useConversation";
 import { SocketContext } from "../../context/SocketContext";
 import { IoMdPersonAdd } from "react-icons/io";
 import useSendRequest from "../../hooks/useSendRequest";
+import { AuthContext } from "../../context/AuthContext";
 
 const Conversation = ({ conversation, lastIndex }) => {
+  const { isFriend } = useContext(AuthContext);
   const { setSelectedConversation, selectedConversation } = useConversation();
   const isSelected = selectedConversation?._id === conversation._id;
 
@@ -15,6 +17,7 @@ const Conversation = ({ conversation, lastIndex }) => {
 
   const sendRequest = async (e) => {
     e.preventDefault();
+    console.log("button");
     // console.log(conversation._id);
     await sendFriendRequest(conversation._id);
   };

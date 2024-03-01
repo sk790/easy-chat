@@ -39,10 +39,13 @@ const Conversation = ({ conversation, lastIndex }) => {
         </div>
         <div className="flex flex-col flex-1">
           <div className="flex gap-3 justify-between">
-            <p className="font-bold text-gray-200">
-              {conversation && conversation.username}
-            </p>
-            <span className="text-sm">
+            <div>
+              <p className="font-bold text-gray-200">
+                {conversation && conversation.username}
+              </p>
+              <p>last message</p>
+            </div>
+            <span className="text-sm flex items-center">
               <button
                 onClick={sendRequest}
                 className="text-2xl hover:text-white transition-all "

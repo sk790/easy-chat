@@ -7,8 +7,10 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="border-r border-slate-500 p-4 flex flex-col overflow-auto">
-      <SearchInput />
+    <div className="border-r h-full w-full border-slate-500 p-4 flex flex-col overflow-auto">
+      <div className="flex items-center">
+        <SearchInput />
+      </div>
       <div className="divider px-3"></div>
       <Conversations />
       <div className="mt-auto flex gap-2">

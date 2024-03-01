@@ -6,19 +6,17 @@ import { AuthContext } from "../../context/AuthContext";
 const FriendRequests = () => {
   const { friendRequests } = useGetFriendRequests();
   const { acceptReq, loading } = useContext(AuthContext);
-  // console.log(friendRequests[0].participants);
-  // console.log(friendRequests.participants.senderId.fullName);
 
   const accept = (id) => {
     acceptReq(id);
   };
   const decline = () => {};
 
-  useEffect(() => {}, [friendRequests]);
+  useEffect(() => {}, [loading, acceptReq, friendRequests]);
   return (
     <>
       {friendRequests.map((request) => {
-        return !loading ? (
+        return (
           <div
             key={request._id}
             className="flex flex-col min-h-full w-1/3 max-h-screen mx-auto"
@@ -31,7 +29,7 @@ const FriendRequests = () => {
                 </div>
                 <div className="flex gap-8 border-t-2">
                   <div>{request.participants.senderId.fullName}</div>
-                  <div>{request.participants.senderId.fullName}</div>
+                  <div>{request.participants.senderId.username}</div>
                 </div>
                 <div className=" my-2 flex flex-row gap-2 absolute right-0 top-0">
                   <button
@@ -51,8 +49,6 @@ const FriendRequests = () => {
               </h1>
             </div>
           </div>
-        ) : (
-          ""
         );
       })}
     </>

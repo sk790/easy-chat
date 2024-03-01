@@ -28,7 +28,7 @@ const SearchInput = () => {
         placeholder="Search..."
         onChange={(e) => setInputs(e.target.value)}
         value={inputs}
-        className="input input-bordered rounded-full"
+        className="input input-bordered rounded-full w-96"
       />
       <button type="submit" className="btn btn-circle bg-sky-500 text-white">
         <IoSearch />

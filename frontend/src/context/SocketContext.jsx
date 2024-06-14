@@ -12,7 +12,7 @@ export const SocketContextProvider = ({ children }) => {
   // https://easy-chat-siea.onrender.com
   useEffect(() => {
     if (authUser) {
-      const socket = io("https://easy-chat-siea.onrender.com/", {
+      const socket = io("localhost:5000/", {
         query: { userId: authUser._id },
       });
       setSocket(socket);

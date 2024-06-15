@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
 const isAuthenticate = async (req, res, next) => {
-  const token = req.cookies.token;
+  const token = req.cookies.easy_chat_token;
   if (!token) {
     return res.status(401).json({ success: false, error: "Unauthorized" });
   }

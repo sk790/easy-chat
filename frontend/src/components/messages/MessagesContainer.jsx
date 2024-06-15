@@ -21,7 +21,7 @@ const MessagesContainer = () => {
             <span className="label-text text-2xl">
               <img
                 src={selectedConversation?.profilePic}
-                className="w-8"
+                className="w-8 h-8 rounded-full"
                 alt=""
               />
             </span>
@@ -47,7 +47,7 @@ const NoChatSelected = ({ authUser }) => {
       <div>Show</div>
       <div className="flex items-center justify-center w-full h-full">
         <div className="px-4 text-center sm:text-lg md:text-xl text-gray-200 font-semibold flex flex-col items-center gap-2">
-          <p>{`Welcome ${authUser?.username}`}</p>
+          <p>{`Welcome ${authUser?.user.username}`}</p>
           <p>Select a chat to start messaging</p>
           <TiMessages className="text-2xl md:text-6xl text-center" />
         </div>

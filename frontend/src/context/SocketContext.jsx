@@ -12,8 +12,8 @@ export const SocketContextProvider = ({ children }) => {
   // https://easy-chat-siea.onrender.com
   useEffect(() => {
     if (authUser) {
-      const socket = io("localhost:5000/", {
-        query: { userId: authUser._id },
+      const socket = io("http://localhost:5000", {
+        query: { userId: authUser.user._id },
       });
       setSocket(socket);
       socket.on("getOnlineUsers", (users) => {

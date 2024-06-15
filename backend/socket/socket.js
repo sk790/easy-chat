@@ -7,18 +7,17 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:4001"],
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
 
 export const getReceiverSocketId = (receiverId) => {
   return users[receiverId];
-} 
+};
 
 const users = {};
 io.on("connection", (socket) => {
-
   const userId = socket.handshake.query.userId;
   if (userId != "undefined") {
     users[userId] = socket.id;
